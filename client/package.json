@@ -17,6 +17,7 @@
     "react-dom": "^19.1.0",
     "react-pdf": "^9.2.1",
     "react-pdf-highlighter": "^8.0.0-rc.0",
+    "recoil": "^0.7.7",
     "tailwindcss": "^4.1.7",
     "vite-plugin-svgr": "^4.3.0"
   },
