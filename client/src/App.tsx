@@ -86,13 +86,11 @@ function App() {
         setCurrentDirectoryHandle(dirHandle);
         setDirectoryHistory(history);
         setFileExif({ fileName: dirHandle.name, fileType: 'directory' });
-        // Removed setError(null);
     };
 
     const handleOpenFilePicker = async () => {
         resetAppStates();
         if (!('showOpenFilePicker' in window)) {
-            // Removed setError and added console warning for unsupported API
             console.warn("File System Access API not supported.");
             return;
         }
@@ -107,7 +105,6 @@ function App() {
             setPdfFile(file);
         } else {
             setPdfFile(null);
-            // Removed setError and added console warning for unsupported file type
             console.warn(`Only PDF files are supported. Selected: ${file.name} (${file.type})`);
         }
     };
@@ -115,7 +112,6 @@ function App() {
     const handleOpenDirectoryPicker = async () => {
         resetAppStates();
         if (!('showDirectoryPicker' in window)) {
-            // Removed setError and added console warning for unsupported API
             console.warn("Directory Picker API not supported.");
             return;
         }
@@ -142,7 +138,6 @@ function App() {
                 setPdfFile(file);
             } else {
                 setPdfFile(null);
-                // Removed setError and added console warning for unsupported file type
                 console.warn(`Only PDF files are supported. Selected: ${file.name} (${file.type})`);
             }
         }
@@ -165,52 +160,52 @@ function App() {
         setScrollToHighlight(highlight);
         setTimeout(() => setScrollToHighlight(null), 100); 
     };
+return (
+  <div className="flex flex-col h-screen bg-stone-400 text-stone-800 font-sans">
+    <AppHeader
+      fileExif={fileExif}
+      onOpenFile={handleOpenFilePicker}
+      onOpenFolder={handleOpenDirectoryPicker}
+    />
+    <div className="flex flex-row flex-1 overflow-hidden">
+      <DirectorySidebar
+        className="h-full bg-stone-400 p-4 overflow-y-auto border-r border-stone-600 rounded-bl-lg"
+        style={{ width: sidebarWidth }}
+        currentDirectoryName={currentDirectoryHandle?.name || null}
+        directoryContents={directoryContents}
+        highlights={highlights}
+        pdfFileIsLoaded={!!pdfFileUrl}
+        onDirectoryEntryClick={handleDirectoryEntryClick}
+        onHighlightClick={handleSidebarHighlightClick}
+      />
 
-    return (
-        <div className="flex flex-col h-screen bg-zinc-950 text-gray-50 font-sans">
-            <AppHeader
-                // Removed error prop
-                fileExif={fileExif}
-                onOpenFile={handleOpenFilePicker}
-                onOpenFolder={handleOpenDirectoryPicker}
-            />
-            <div className="flex flex-row flex-1 overflow-hidden">
-                <DirectorySidebar
-                    className="h-full bg-zinc-900 p-4 overflow-y-auto border-r border-zinc-800 rounded-bl-lg"
-                    style={{ width: sidebarWidth }}
-                    currentDirectoryName={currentDirectoryHandle?.name || null}
-                    directoryContents={directoryContents}
-                    highlights={highlights}
-                    pdfFileIsLoaded={!!pdfFileUrl}
-                    onDirectoryEntryClick={handleDirectoryEntryClick}
-                    onHighlightClick={handleSidebarHighlightClick}
-                />
+      <div
+        className="w-2 bg-stone-500 hover:bg-stone-600 cursor-ew-resize transition-colors duration-100"
+        onMouseDown={handleMouseDown}
+        title="Drag to resize sidebar"
+      ></div>
 
-                <div
-                    className="w-2 bg-zinc-800 hover:bg-zinc-700 cursor-ew-resize transition-colors duration-100"
-                    onMouseDown={handleMouseDown}
-                    title="Drag to resize sidebar"
-                ></div>
+      <main className="flex-1 bg-stone-200 p-0 overflow-y-auto relative rounded-br-lg">
+        {pdfFileUrl ? (
+          <PdfDisplay
+            pdfFileUrl={pdfFileUrl}
+            highlights={highlights}
+            onAddHighlight={addHighlightToList}
+            onRemoveHighlight={removeHighlightFromList}
+            onUpdateHighlight={updateHighlightInList}
+            initialScrollToHighlight={scrollToHighlight}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-stone-600 text-xl">
+            <p>{currentDirectoryHandle ? "Select a PDF file from the sidebar." : "Open a PDF file or folder."}</p>
+          </div>
+        )}
+      </main>
+    </div>
+  </div>
+);
 
-                <main className="flex-1 bg-zinc-900 p-0 overflow-y-auto relative rounded-br-lg">
-                    {pdfFileUrl ? (
-                        <PdfDisplay
-                            pdfFileUrl={pdfFileUrl}
-                            highlights={highlights}
-                            onAddHighlight={addHighlightToList}
-                            onRemoveHighlight={removeHighlightFromList}
-                            onUpdateHighlight={updateHighlightInList}
-                            initialScrollToHighlight={scrollToHighlight}
-                        />
-                    ) : (
-                        <div className="flex items-center justify-center h-full text-gray-400 text-xl">
-                            <p>{currentDirectoryHandle ? "Select a PDF file from the sidebar." : "Open a PDF file or folder."}</p>
-                        </div>
-                    )}
-                </main>
-            </div>
-        </div>
-    );
+
 }
 
 export default App;
