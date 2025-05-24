@@ -14,8 +14,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 function App() {
     const [fileExif, setFileExif] = useState<FileExif | null>(null);
-    // Removed error state
-    // const [error, setError] = useState<string | null>(null);
 
     const [directoryContents, setDirectoryContents] = useState<DirectoryItem[] | null>(null);
     const [currentDirectoryHandle, setCurrentDirectoryHandle] = useState<FileSystemDirectoryHandle | null>(null);
@@ -26,11 +24,10 @@ function App() {
     const [highlights, setHighlights] = useState<IHighlight[]>([]);
     const [scrollToHighlight, setScrollToHighlight] = useState<IHighlight | null>(null);
 
-    const [sidebarWidth, setSidebarWidth] = useState(window.innerWidth / 3);
+    const [sidebarWidth, setSidebarWidth] = useState(window.innerWidth / 4);
     const isResizing = useRef(false);
 
     const resetAppStates = useCallback(() => {
-        // Removed setError(null)
         setFileExif(null);
         setDirectoryContents(null); setCurrentDirectoryHandle(null); setDirectoryHistory([]);
         setPdfFile(null); setPdfFileUrl(''); setHighlights([]); setScrollToHighlight(null);
