@@ -1,4 +1,3 @@
-// src/components/PdfDisplay.tsx
 import React, { useRef, useEffect } from 'react';
 import {
     PdfLoader,
