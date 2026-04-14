@@ -5,9 +5,15 @@ interface AppHeaderProps {
     fileExif: FileExif | null;
     onOpenFile: () => void;
     onOpenFolder: () => void;
+    onOpenTools: () => void;
 }
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ onOpenFile, onOpenFolder }) => {
+export const AppHeader: React.FC<AppHeaderProps> = ({
+    fileExif,
+    onOpenFile,
+    onOpenFolder,
+    onOpenTools,
+}) => {
     return (
         <header className="p-3 bg-stone-300 border-b border-stone-400 shadow-md">
             <div className="flex items-center justify-between">
@@ -29,7 +35,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onOpenFile, onOpenFolder }
                     <h1 className="text-xl font-semibold text-stone-900">Dotmark</h1>
                 </div>
 
-                <div className="space-x-2">
+                <div className="flex items-center gap-4">
+                    <p className="max-w-xs truncate text-sm text-stone-700" title={fileExif?.fileName ?? ''}>
+                        {fileExif ? `${fileExif.fileType === 'directory' ? 'Folder' : 'File'}: ${fileExif.fileName}` : 'No file selected'}
+                    </p>
+                    <div className="space-x-2">
                     <button
                         onClick={onOpenFile}
                         className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-opacity-50"
@@ -42,6 +52,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onOpenFile, onOpenFolder }
                     >
                         Open Folder
                     </button>
+                    <button
+                        onClick={onOpenTools}
+                        className="px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50"
+                    >
+                        Tools
+                    </button>
+                    </div>
                 </div>
             </div>
         </header>

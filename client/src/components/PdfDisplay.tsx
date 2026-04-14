@@ -14,7 +14,11 @@ interface PdfDisplayProps {
     highlights: IHighlight[];
     onAddHighlight: (highlight: NewHighlight) => void;
     onRemoveHighlight: (highlightId: string) => void;
-    onUpdateHighlight: (highlightId: string, positionUpdate: any, contentUpdate: any) => void;
+    onUpdateHighlight: (
+        highlightId: string,
+        positionUpdate: Partial<IHighlight['position']>,
+        contentUpdate: Partial<IHighlight['content']>
+    ) => void;
     initialScrollToHighlight?: IHighlight | null;
 }
 
@@ -38,7 +42,7 @@ export const PdfDisplay: React.FC<PdfDisplayProps> = ({
     onUpdateHighlight,
     initialScrollToHighlight,
 }) => {
-    const highlighterRef = useRef<any>(null); // Type for PdfHighlighter ref is not explicitly exported
+    const highlighterRef = useRef<PdfHighlighter<IHighlight> | null>(null);
 
     useEffect(() => {
         if (initialScrollToHighlight && highlighterRef.current) {

@@ -16,7 +16,10 @@ interface DirectorySidebarProps {
 export const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
     currentDirectoryName,
     directoryContents,
+  highlights,
+  pdfFileIsLoaded,
     onDirectoryEntryClick,
+  onHighlightClick,
 
     className, // Destructure className
     style, // Destructure style
@@ -56,6 +59,31 @@ export const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
           </li>
         ))}
       </ul>
+    )}
+
+    {pdfFileIsLoaded && (
+      <div className="border-t border-stone-500 pt-3">
+        <h4 className="text-sm font-semibold text-stone-800 mb-2">Highlights</h4>
+        {highlights.length === 0 ? (
+          <p className="text-xs text-stone-600">No highlights yet. Select text in the PDF to add one.</p>
+        ) : (
+          <ul className="space-y-1.5">
+            {highlights.map((highlight) => (
+              <li key={highlight.id}>
+                <button
+                  onClick={() => onHighlightClick(highlight)}
+                  className="w-full text-left px-2 py-1.5 rounded-md bg-stone-300 hover:bg-amber-200 text-xs text-stone-800 transition-colors"
+                  title={highlight.content.text || 'Area highlight'}
+                >
+                  <span className="line-clamp-2">
+                    {highlight.content.text || 'Area highlight'}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     )}
   </aside>
 );
