@@ -16,7 +16,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
     return (
         <header className="p-3 bg-stone-300 border-b border-stone-400 shadow-md">
-            <div className="flex items-center justify-between">
+            <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -35,10 +35,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     <h1 className="text-xl font-semibold text-stone-900">Dotmark</h1>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <p className="max-w-xs truncate text-sm text-stone-700" title={fileExif?.fileName ?? ''}>
-                        {fileExif ? `${fileExif.fileType === 'directory' ? 'Folder' : 'File'}: ${fileExif.fileName}` : 'No file selected'}
-                    </p>
+                <p
+                    className="pointer-events-none absolute left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 truncate px-8 text-center text-sm text-stone-700"
+                    title={fileExif?.fileName ?? ''}
+                >
+                    {fileExif ? `${fileExif.fileType === 'directory' ? 'Folder' : 'File'}: ${fileExif.fileName}` : 'No file selected'}
+                </p>
+
+                <div className="flex items-center">
                     <div className="space-x-2">
                     <button
                         onClick={onOpenFile}
